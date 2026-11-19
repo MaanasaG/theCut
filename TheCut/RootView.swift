@@ -31,7 +31,7 @@ struct RootView: View {
 }
 
 enum AppTab: Hashable {
-    case home, feed, quiz, practice, course, settings
+    case home, feed, quiz, practice, course
 }
 
 struct MainTabView: View {
@@ -53,11 +53,8 @@ struct MainTabView: View {
                 .tabItem { Label("Practice", systemImage: "mic") }
                 .tag(AppTab.practice)
             CourseView(progress: progress)
-                .tabItem { Label("Course", systemImage: "calendar") }
+                .tabItem { Label("Course", systemImage: "film") }
                 .tag(AppTab.course)
-            SettingsView(progress: progress)
-                .tabItem { Label("Settings", systemImage: "gearshape") }
-                .tag(AppTab.settings)
         }
         .tint(CutTheme.ember)
     }

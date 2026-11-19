@@ -9,6 +9,15 @@ struct OnboardingView: View {
         VStack(spacing: 0) {
             Spacer()
             VStack(alignment: .leading, spacing: 18) {
+                Image("BrandMark")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 88, height: 88)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .shadow(color: CutTheme.ember.opacity(0.35), radius: 16, y: 8)
+                    .scaleEffect(appear ? 1 : 0.9)
+                    .opacity(appear ? 1 : 0)
+
                 Text("The Cut")
                     .font(CutTheme.display)
                     .foregroundStyle(CutTheme.paper)

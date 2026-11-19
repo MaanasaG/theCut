@@ -28,8 +28,10 @@
 		AC46DB62C618042590C7FE51 /* CutTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC61423CA687E99FDFC734D /* CutTheme.swift */; };
 		B7B1AFC9A07DAB4C0D6D6B26 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0214A4F7461D72CACEE88244 /* QuizView.swift */; };
 		C67B19583A68A7DE79849324 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241A8F866EF39093769ED1ED /* AppModel.swift */; };
+		CB299E93D8FFC7374FB55E9E /* VerticalReelPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C424B62610130157172F760 /* VerticalReelPager.swift */; };
 		CEFAD79D534DF700F1289C4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E2256FE24EDFB8E097E1D7E /* Assets.xcassets */; };
 		D23D264BD649121C46E8FD7D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63794059CD69E392568DFEDF /* RootView.swift */; };
+		D47CF3FDEDADA1C2B8900ADF /* TopicVideoBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A8861839BCCA891761167B /* TopicVideoBackdrop.swift */; };
 		DA8EF03C92F24660B2C8D75E /* ClaudeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA2134CD6CD8431693230E5 /* ClaudeClient.swift */; };
 		DA9A6521440F61B25135EEFE /* SystemDesignMockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B92D350622EF4919C999E9 /* SystemDesignMockView.swift */; };
 		E778B8AA7894D0E9DDAEFFFE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262718B09F661B25E1E505EA /* OnboardingView.swift */; };
@@ -55,11 +57,13 @@
 		774CEE519A8F30B514FC63D1 /* SpokenPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenPracticeView.swift; sourceTree = "<group>"; };
 		801F4D4515BB83D8991D1891 /* ScenarioDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioDrillView.swift; sourceTree = "<group>"; };
 		8A9362F811A69C370E8A86DA /* PackSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackSchema.swift; sourceTree = "<group>"; };
+		8C424B62610130157172F760 /* VerticalReelPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalReelPager.swift; sourceTree = "<group>"; };
 		901DDDD29EE627C44A5BD5D5 /* managers_cut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = managers_cut.json; sourceTree = "<group>"; };
 		9B06A6EF235BC1A1B7AC74AA /* senior_managers_cut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = senior_managers_cut.json; sourceTree = "<group>"; };
 		9E2256FE24EDFB8E097E1D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACB34784116EDA4F5AC72D83 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
 		B1EDBDCD472C5C25CC953E96 /* LiveMockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMockView.swift; sourceTree = "<group>"; };
+		B8A8861839BCCA891761167B /* TopicVideoBackdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicVideoBackdrop.swift; sourceTree = "<group>"; };
 		BBBDA8EE2B117A612DB89C6F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D8437E420134DF9FE6FE6239 /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
 		F2655CD0DB45DAF20EE7D3D3 /* TheCut.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TheCut.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				F43F3417160F781ECA6EA734 /* FeedView.swift */,
+				B8A8861839BCCA891761167B /* TopicVideoBackdrop.swift */,
+				8C424B62610130157172F760 /* VerticalReelPager.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -375,7 +381,9 @@
 				9396E680D3D6E3654AC7B4F0 /* SpokenPracticeView.swift in Sources */,
 				DA9A6521440F61B25135EEFE /* SystemDesignMockView.swift in Sources */,
 				4BE1883AF8A5527EF9049A02 /* TheCutApp.swift in Sources */,
+				D47CF3FDEDADA1C2B8900ADF /* TopicVideoBackdrop.swift in Sources */,
 				8B0D2CE8D6D24AA2596C88FC /* UserProgress.swift in Sources */,
+				CB299E93D8FFC7374FB55E9E /* VerticalReelPager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,12 +396,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				INFOPLIST_FILE = TheCut/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "The Cut";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -410,12 +421,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				INFOPLIST_FILE = TheCut/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "The Cut";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

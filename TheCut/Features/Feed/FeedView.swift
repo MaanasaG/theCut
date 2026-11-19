@@ -5,6 +5,7 @@ struct FeedView: View {
     @Environment(AppModel.self) private var appModel
     @Environment(\.modelContext) private var modelContext
     @Query private var spaced: [SpacedCardState]
+    @StateObject private var narrator = LessonNarrator.shared
     var progress: UserProgress
 
     @State private var topicFilter: CardTopic? = nil
@@ -41,35 +42,46 @@ struct FeedView: View {
                 )
                 .foregroundStyle(CutTheme.mist)
             } else {
-                TabView(selection: $index) {
-                    ForEach(Array(cards.enumerated()), id: \.element.id) { i, card in
-                        FeedCardView(
-                            card: card,
-                            isFavorite: progress.favoriteCardIDs.contains(card.id),
-                            phase: index == i ? recallPhase : .hidden,
-                            onToggleFavorite: { toggleFavorite(card) },
-                            onStartRecall: { recallPhase = .prompt },
-                            onShowAnswer: { recallPhase = .revealed },
-                            onScore: { correct in
-                                applyRecall(card: card, correct: correct)
-                                recallPhase = .hidden
-                            }
-                        )
-                        .tag(i)
-                    }
+                VerticalReelPager(items: cards, index: $index) { i, card in
+                    FeedCardView(
+                        card: card,
+                        isFavorite: progress.favoriteCardIDs.contains(card.id),
+                        phase: index == i ? recallPhase : .hidden,
+                        isActive: index == i,
+                        isPlayingVideo: index == i && narrator.isSpeaking,
+                        onToggleFavorite: { toggleFavorite(card) },
+                        onPlayVideo: {
+                            narrator.play(title: card.title, body: card.body)
+                        },
+                        onStartRecall: { recallPhase = .prompt },
+                        onShowAnswer: { recallPhase = .revealed },
+                        onTeachMe: { recallPhase = .teaching },
+                        onScore: { correct in
+                            applyRecall(card: card, correct: correct)
+                            recallPhase = .hidden
+                        },
+                        onTaught: {
+                            applyRecall(card: card, correct: false)
+                            recallPhase = .hidden
+                        }
+                    )
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .ignoresSafeArea()
                 .onChange(of: index) { _, _ in
                     recallPhase = .hidden
+                    narrator.stop()
                 }
             }
 
             VStack {
                 filterBar
                 Spacer()
+                Text("Swipe up")
+                    .font(CutTheme.caption)
+                    .foregroundStyle(CutTheme.paper.opacity(0.7))
+                    .padding(.bottom, 28)
             }
             .padding(.top, 8)
+            .allowsHitTesting(true)
         }
     }
 
@@ -127,7 +139,7 @@ struct FeedView: View {
 }
 
 enum RecallPhase: Equatable {
-    case hidden, prompt, revealed
+    case hidden, prompt, revealed, teaching
 }
 
 struct FilterChip: View {
@@ -152,27 +164,33 @@ struct FeedCardView: View {
     var card: FeedCard
     var isFavorite: Bool
     var phase: RecallPhase
+    var badge: String? = nil
+    var isActive: Bool = true
+    var isPlayingVideo: Bool = false
     var onToggleFavorite: () -> Void
+    var onPlayVideo: () -> Void = {}
     var onStartRecall: () -> Void
     var onShowAnswer: () -> Void
+    var onTeachMe: () -> Void = {}
     var onScore: (Bool) -> Void
+    var onTaught: () -> Void = {}
 
     @State private var appeared = false
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [CutTheme.ink, CutTheme.slate, topicAccent.opacity(0.35)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            TopicVideoBackdrop(topic: card.topic, isActive: isActive, playing: isPlayingVideo)
 
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 18) {
                 HStack {
                     Text(card.topic.title.uppercased())
                         .font(.caption2.weight(.bold))
                         .foregroundStyle(CutTheme.gold)
+                    if let badge {
+                        Text(badge)
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(CutTheme.ember)
+                    }
                     Spacer()
                     Button(action: onToggleFavorite) {
                         Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
@@ -180,18 +198,35 @@ struct FeedCardView: View {
                     }
                 }
 
+                Spacer()
+
                 Text(card.title)
                     .font(CutTheme.title)
                     .foregroundStyle(CutTheme.paper)
+                    .shadow(color: .black.opacity(0.45), radius: 8, y: 2)
                     .opacity(appeared ? 1 : 0)
                     .offset(y: appeared ? 0 : 12)
 
-                Text(card.body)
-                    .font(CutTheme.body)
-                    .foregroundStyle(CutTheme.mist)
-                    .opacity(appeared ? 1 : 0)
+                if phase != .teaching {
+                    Text(card.body)
+                        .font(CutTheme.body)
+                        .foregroundStyle(CutTheme.mist)
+                        .shadow(color: .black.opacity(0.35), radius: 6, y: 1)
+                        .opacity(appeared ? 1 : 0)
+                }
 
-                Spacer()
+                Button {
+                    onPlayVideo()
+                } label: {
+                    Label(isPlayingVideo ? "Playing lesson…" : "Play AI lesson", systemImage: isPlayingVideo ? "waveform" : "play.circle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(CutTheme.paper)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(CutTheme.ink.opacity(0.55))
+                        .clipShape(Capsule())
+                        .overlay(Capsule().stroke(CutTheme.ember.opacity(0.5), lineWidth: 1))
+                }
 
                 switch phase {
                 case .hidden:
@@ -204,9 +239,11 @@ struct FeedCardView: View {
                             .foregroundStyle(CutTheme.paper)
                         Button("Show answer", action: onShowAnswer)
                             .buttonStyle(CutPrimaryButtonStyle())
+                        Button("I don't know — teach me", action: onTeachMe)
+                            .buttonStyle(CutSecondaryButtonStyle())
                     }
                     .padding(16)
-                    .background(CutTheme.ink.opacity(0.55))
+                    .background(CutTheme.ink.opacity(0.7))
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 case .revealed:
                     VStack(alignment: .leading, spacing: 12) {
@@ -221,19 +258,36 @@ struct FeedCardView: View {
                             Button("Missed") { onScore(false) }
                                 .buttonStyle(CutSecondaryButtonStyle())
                         }
+                        Button("Teach me more", action: onTeachMe)
+                            .buttonStyle(CutSecondaryButtonStyle())
                     }
                     .padding(16)
-                    .background(CutTheme.ink.opacity(0.55))
+                    .background(CutTheme.ink.opacity(0.7))
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                case .teaching:
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Teach me")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(CutTheme.ember)
+                        Text(card.body)
+                            .foregroundStyle(CutTheme.mist)
+                        Text("Remember this")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(CutTheme.gold)
+                        Text(card.recallAnswer)
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(CutTheme.paper)
+                        Button("Got it — next") { onTaught() }
+                            .buttonStyle(CutPrimaryButtonStyle())
+                    }
+                    .padding(16)
+                    .background(CutTheme.ink.opacity(0.75))
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
-
-                Text("Swipe up for next")
-                    .font(CutTheme.caption)
-                    .foregroundStyle(CutTheme.mist.opacity(0.6))
-                    .frame(maxWidth: .infinity)
             }
             .padding(28)
             .padding(.top, 56)
+            .padding(.bottom, 36)
         }
         .onAppear {
             withAnimation(.easeOut(duration: 0.45)) { appeared = true }
@@ -241,15 +295,6 @@ struct FeedCardView: View {
         .onChange(of: card.id) { _, _ in
             appeared = false
             withAnimation(.easeOut(duration: 0.45)) { appeared = true }
-        }
-    }
-
-    private var topicAccent: Color {
-        switch card.topic {
-        case .systemDesign: return CutTheme.ember
-        case .scenarios: return CutTheme.gold
-        case .aiStrategy: return Color(red: 0.35, green: 0.55, blue: 0.7)
-        case .directorBusiness: return Color(red: 0.55, green: 0.4, blue: 0.3)
         }
     }
 }

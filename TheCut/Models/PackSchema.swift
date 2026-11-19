@@ -83,7 +83,33 @@ struct CourseWeek: Codable, Identifiable, Hashable {
     var id: String
     var week: Int
     var title: String
+    var summary: String
+    /// Card IDs from this pack — watching this reel sequence IS the week.
+    var reelCardIds: [String]
     var tasks: [CourseTask]
+
+    enum CodingKeys: String, CodingKey {
+        case id, week, title, summary, reelCardIds, tasks
+    }
+
+    init(id: String, week: Int, title: String, summary: String = "", reelCardIds: [String] = [], tasks: [CourseTask] = []) {
+        self.id = id
+        self.week = week
+        self.title = title
+        self.summary = summary
+        self.reelCardIds = reelCardIds
+        self.tasks = tasks
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        week = try c.decode(Int.self, forKey: .week)
+        title = try c.decode(String.self, forKey: .title)
+        summary = try c.decodeIfPresent(String.self, forKey: .summary) ?? ""
+        reelCardIds = try c.decodeIfPresent([String].self, forKey: .reelCardIds) ?? []
+        tasks = try c.decodeIfPresent([CourseTask].self, forKey: .tasks) ?? []
+    }
 }
 
 struct CourseTask: Codable, Identifiable, Hashable {

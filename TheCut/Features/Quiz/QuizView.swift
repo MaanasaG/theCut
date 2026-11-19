@@ -1,4 +1,3 @@
-import SwiftData
 import SwiftUI
 
 struct QuizView: View {
@@ -7,16 +6,12 @@ struct QuizView: View {
 
     @State private var quizIndex = 0
     @State private var selectedChoice: Int?
-    @State private var orderDraft: [String] = []
     @State private var showResult = false
     @State private var wasCorrect = false
-    @State private var moduleUnlocked = 1
 
+    /// All quizzes unlocked — every question shows A/B/C/D options.
     private var quizzes: [QuizItem] {
-        let all = appModel.selectedPack.quizzes
-        // Unlock in course order: 1 quiz per "module" level initially, grow with XP.
-        let unlockedCount = min(all.count, max(1, progress.xp / 30 + moduleUnlocked))
-        return Array(all.prefix(unlockedCount))
+        appModel.selectedPack.quizzes
     }
 
     private var current: QuizItem? {
@@ -26,135 +21,105 @@ struct QuizView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 20) {
-                HStack {
-                    Text("Quiz")
-                        .font(CutTheme.title)
-                        .foregroundStyle(CutTheme.paper)
-                    Spacer()
-                    Text("+\(progress.xp) XP")
-                        .font(CutTheme.caption)
-                        .foregroundStyle(CutTheme.ember)
-                }
-
-                if let quiz = current {
-                    Text(quiz.topic.title.uppercased())
-                        .font(.caption2.weight(.bold))
-                        .foregroundStyle(CutTheme.gold)
-                    Text(quiz.prompt)
-                        .font(.headline)
-                        .foregroundStyle(CutTheme.paper)
-
-                    switch quiz.type {
-                    case .multipleChoice, .tradeoff, .estimateScale:
-                        choiceList(quiz)
-                    case .orderSteps:
-                        orderList(quiz)
-                    }
-
-                    if showResult {
-                        Text(wasCorrect ? "Correct" : "Not quite")
-                            .foregroundStyle(wasCorrect ? CutTheme.success : CutTheme.ember)
-                            .font(.headline)
-                            .transition(.scale.combined(with: .opacity))
-                        Text(quiz.explanation)
-                            .foregroundStyle(CutTheme.mist)
-                        Button("Next") { advance() }
-                            .buttonStyle(CutPrimaryButtonStyle())
-                    } else {
-                        Button("Check") { check(quiz) }
-                            .buttonStyle(CutPrimaryButtonStyle())
-                            .disabled(!canCheck(quiz))
-                    }
-                } else {
-                    ContentUnavailableView("No quizzes", systemImage: "checkmark.circle")
-                }
-
-                Spacer()
-            }
-            .padding(24)
-            .navigationBarHidden(true)
-            .onAppear { moduleUnlocked = max(1, progress.streak) }
-        }
-    }
-
-    @ViewBuilder
-    private func choiceList(_ quiz: QuizItem) -> some View {
-        VStack(spacing: 10) {
-            ForEach(Array((quiz.choices ?? []).enumerated()), id: \.offset) { i, choice in
-                Button {
-                    selectedChoice = i
-                } label: {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
                     HStack {
-                        Text(choice)
+                        Text("Quiz")
+                            .font(CutTheme.title)
                             .foregroundStyle(CutTheme.paper)
-                            .multilineTextAlignment(.leading)
                         Spacer()
-                        if selectedChoice == i {
-                            Image(systemName: "circle.inset.filled")
+                        Text("\(quizIndex + 1)/\(max(quizzes.count, 1))")
+                            .font(CutTheme.caption)
+                            .foregroundStyle(CutTheme.ember)
+                    }
+
+                    if let quiz = current {
+                        Text(quiz.topic.title.uppercased())
+                            .font(.caption2.weight(.bold))
+                            .foregroundStyle(CutTheme.gold)
+                        Text(quiz.prompt)
+                            .font(.headline)
+                            .foregroundStyle(CutTheme.paper)
+
+                        let choices = quiz.choices ?? []
+                        if choices.isEmpty {
+                            Text("No options bundled for this question.")
                                 .foregroundStyle(CutTheme.ember)
+                        } else {
+                            VStack(spacing: 10) {
+                                ForEach(Array(choices.enumerated()), id: \.offset) { i, choice in
+                                    Button {
+                                        guard !showResult else { return }
+                                        selectedChoice = i
+                                    } label: {
+                                        HStack(alignment: .top, spacing: 12) {
+                                            Text(optionLetter(i))
+                                                .font(.subheadline.weight(.bold))
+                                                .foregroundStyle(selectedChoice == i ? CutTheme.ink : CutTheme.gold)
+                                                .frame(width: 28, height: 28)
+                                                .background(selectedChoice == i ? CutTheme.ember : CutTheme.ink.opacity(0.5))
+                                                .clipShape(Circle())
+                                            Text(choice)
+                                                .foregroundStyle(CutTheme.paper)
+                                                .multilineTextAlignment(.leading)
+                                            Spacer(minLength: 0)
+                                        }
+                                        .padding(14)
+                                        .background(choiceBackground(i, quiz: quiz))
+                                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                                .stroke(selectedChoice == i ? CutTheme.ember.opacity(0.7) : .clear, lineWidth: 1)
+                                        )
+                                    }
+                                    .disabled(showResult)
+                                }
+                            }
                         }
+
+                        if showResult {
+                            Text(wasCorrect ? "Correct" : "Not quite")
+                                .foregroundStyle(wasCorrect ? CutTheme.success : CutTheme.ember)
+                                .font(.headline)
+                            Text(quiz.explanation)
+                                .foregroundStyle(CutTheme.mist)
+                            Button("Next question") { advance() }
+                                .buttonStyle(CutPrimaryButtonStyle())
+                        } else {
+                            Button("Check answer") { check(quiz) }
+                                .buttonStyle(CutPrimaryButtonStyle())
+                                .disabled(selectedChoice == nil)
+                        }
+                    } else {
+                        ContentUnavailableView("No quizzes", systemImage: "checkmark.circle")
                     }
-                    .padding(14)
-                    .background(CutTheme.slate.opacity(0.9))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
+                .padding(24)
             }
+            .navigationBarHidden(true)
         }
     }
 
-    @ViewBuilder
-    private func orderList(_ quiz: QuizItem) -> some View {
-        let pool = orderDraft.isEmpty ? (quiz.correctOrder ?? []) : orderDraft
-        VStack(spacing: 8) {
-            Text("Tap in the correct order")
-                .font(CutTheme.caption)
-                .foregroundStyle(CutTheme.mist)
-            ForEach(pool, id: \.self) { step in
-                Button {
-                    if orderDraft.isEmpty {
-                        orderDraft = pool
-                    }
-                    if let idx = orderDraft.firstIndex(of: step) {
-                        let item = orderDraft.remove(at: idx)
-                        orderDraft.append(item)
-                    }
-                } label: {
-                    Text(step)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(12)
-                        .foregroundStyle(CutTheme.paper)
-                        .background(CutTheme.slate)
-                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                }
-            }
-            Button("Shuffle") {
-                orderDraft = (quiz.correctOrder ?? []).shuffled()
-            }
-            .buttonStyle(CutSecondaryButtonStyle())
-            .onAppear {
-                if orderDraft.isEmpty {
-                    orderDraft = (quiz.correctOrder ?? []).shuffled()
-                }
-            }
-        }
+    private func optionLetter(_ i: Int) -> String {
+        let letters = ["A", "B", "C", "D", "E", "F"]
+        return i < letters.count ? letters[i] : "\(i + 1)"
     }
 
-    private func canCheck(_ quiz: QuizItem) -> Bool {
-        switch quiz.type {
-        case .orderSteps: return !orderDraft.isEmpty
-        default: return selectedChoice != nil
+    private func choiceBackground(_ i: Int, quiz: QuizItem) -> Color {
+        guard showResult else {
+            return CutTheme.slate.opacity(0.9)
         }
+        if i == quiz.correctIndex {
+            return CutTheme.success.opacity(0.35)
+        }
+        if i == selectedChoice {
+            return CutTheme.ember.opacity(0.35)
+        }
+        return CutTheme.slate.opacity(0.6)
     }
 
     private func check(_ quiz: QuizItem) {
-        let correct: Bool
-        switch quiz.type {
-        case .orderSteps:
-            correct = orderDraft == (quiz.correctOrder ?? [])
-        default:
-            correct = selectedChoice == quiz.correctIndex
-        }
+        let correct = selectedChoice == quiz.correctIndex
         wasCorrect = correct
         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
             showResult = true
@@ -170,11 +135,6 @@ struct QuizView: View {
     private func advance() {
         showResult = false
         selectedChoice = nil
-        orderDraft = []
-        quizIndex += 1
-        if quizIndex >= quizzes.count {
-            moduleUnlocked += 1
-            quizIndex = 0
-        }
+        quizIndex = (quizIndex + 1) % max(quizzes.count, 1)
     }
 }

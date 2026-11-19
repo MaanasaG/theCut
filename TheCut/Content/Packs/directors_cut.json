@@ -12,7 +12,9 @@
       "body": "Put many app servers behind one entry point. Adds a hop and needs health checks. Use when horizontal scale starts.",
       "recallPrompt": "Main tradeoff of a load balancer?",
       "recallAnswer": "Another hop; needs health checks",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-cache",
@@ -22,7 +24,10 @@
       "body": "Cache when the same data is read far more than written. You gain latency and load relief; you pay in staleness and invalidation complexity.",
       "recallPrompt": "When do you reach for a cache?",
       "recallAnswer": "Read-heavy data with acceptable staleness",
-      "tags": ["building-block", "tradeoff"]
+      "tags": [
+        "building-block",
+        "tradeoff"
+      ]
     },
     {
       "id": "bb-cdn",
@@ -32,7 +37,9 @@
       "body": "Edge-cache static files or media for users everywhere. Tradeoffs: cost and cache purges when content changes.",
       "recallPrompt": "CDN main tradeoff?",
       "recallAnswer": "Cost and cache purges",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-sql",
@@ -42,7 +49,9 @@
       "body": "Use for transactions, joins, strong consistency (money, enrollment). Harder to scale writes than a simple NoSQL pattern.",
       "recallPrompt": "When is SQL the right default?",
       "recallAnswer": "Transactions, joins, strong consistency",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-nosql",
@@ -52,17 +61,21 @@
       "body": "Huge scale, simple access patterns, flexible schema. Weaker consistency and no joins. Pick when access patterns are clear.",
       "recallPrompt": "NoSQL main tradeoff?",
       "recallAnswer": "Weaker consistency, no joins",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-replication",
       "kind": "concept",
       "topic": "system_design",
       "title": "Replication",
-      "body": "Read scaling and failover. Cost is replica lag — know what staleness your product can tolerate.",
+      "body": "Read scaling and failover. Cost is replica lag \u2014 know what staleness your product can tolerate.",
       "recallPrompt": "Replication tradeoff?",
       "recallAnswer": "Replica lag",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-sharding",
@@ -72,7 +85,9 @@
       "body": "Split data or writes when one machine is not enough. Hot shards and cross-shard queries become the new hard problems.",
       "recallPrompt": "Sharding pain points?",
       "recallAnswer": "Hot shards and cross-shard queries",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-queue",
@@ -82,7 +97,9 @@
       "body": "Smooth spikes and decouple slow work. You accept eventual consistency, retries, and ordering questions.",
       "recallPrompt": "Why introduce a queue?",
       "recallAnswer": "Smooth spikes; decouple slow work",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-search",
@@ -92,27 +109,33 @@
       "body": "Full text search and autocomplete. Extra system to run; index lag versus primary store.",
       "recallPrompt": "Search index tradeoff?",
       "recallAnswer": "Index lag; extra system to operate",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-object",
       "kind": "concept",
       "topic": "system_design",
       "title": "Object storage",
-      "body": "Files, images, model artifacts. Not for small frequent updates — use a DB for those.",
+      "body": "Files, images, model artifacts. Not for small frequent updates \u2014 use a DB for those.",
       "recallPrompt": "When not to use object storage?",
       "recallAnswer": "Small frequent updates",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-rate-limiter",
       "kind": "concept",
       "topic": "system_design",
       "title": "Rate limiter",
-      "body": "Protect services and fair use. Legitimate users can get blocked — tune carefully and explain the policy.",
+      "body": "Protect services and fair use. Legitimate users can get blocked \u2014 tune carefully and explain the policy.",
       "recallPrompt": "Rate limiter risk?",
       "recallAnswer": "Legit users can get blocked",
-      "tags": ["building-block"]
+      "tags": [
+        "building-block"
+      ]
     },
     {
       "id": "bb-vector",
@@ -122,197 +145,239 @@
       "body": "Semantic search for RAG and AI features. Trade recall versus latency and embedding cost.",
       "recallPrompt": "Vector DB main tradeoff?",
       "recallAnswer": "Recall vs latency and embedding cost",
-      "tags": ["building-block", "ai"]
+      "tags": [
+        "building-block",
+        "ai"
+      ]
     },
     {
       "id": "fw-sd-1",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 1 — Clarify",
+      "title": "Step 1 \u2014 Clarify",
       "body": "Who are the users, what is the core job, what is out of scope. Restate before designing.",
       "recallPrompt": "First move in system design?",
       "recallAnswer": "Clarify users, job, out of scope",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-2",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 2 — Requirements",
+      "title": "Step 2 \u2014 Requirements",
       "body": "Three to five functional requirements. Then non-functional: latency, availability, consistency, privacy, cost.",
       "recallPrompt": "What NFRs should you name?",
       "recallAnswer": "Latency, availability, consistency, privacy, cost",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-3",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 3 — Estimate",
-      "body": "Start from DAU. Derive reads vs writes per second and storage per year. Do the ballpark yourself — asking for every number reads badly.",
+      "title": "Step 3 \u2014 Estimate",
+      "body": "Start from DAU. Derive reads vs writes per second and storage per year. Do the ballpark yourself \u2014 asking for every number reads badly.",
       "recallPrompt": "Where do scale estimates start?",
       "recallAnswer": "Daily active users",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-4",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 4 — API and data",
+      "title": "Step 4 \u2014 API and data",
       "body": "Few key endpoints, main entities, SQL vs NoSQL with a reason.",
       "recallPrompt": "What belongs in API/data?",
       "recallAnswer": "Endpoints, entities, store choice with reason",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-5",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 5 — High level design",
+      "title": "Step 5 \u2014 High level design",
       "body": "Client, gateway, services, data stores, cache, queue. Keep it to boxes you can defend. Fewer boxes, clearly reasoned, beats many boxes.",
       "recallPrompt": "Warning sign in HLD?",
       "recallAnswer": "Seventeen boxes and unprompted Kafka",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-6",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 6 — Deep dive",
+      "title": "Step 6 \u2014 Deep dive",
       "body": "Pick the hardest part (hot partitions, fan-out, contention, consistency). Show two options and why you pick one.",
       "recallPrompt": "What makes a strong deep dive?",
       "recallAnswer": "Two options and a reasoned pick",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-7",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 7 — Operate it",
+      "title": "Step 7 \u2014 Operate it",
       "body": "Monitoring, failure modes, graceful degradation, security, cost, rollout plan.",
       "recallPrompt": "Name three operate concerns.",
       "recallAnswer": "Monitoring, failure modes, rollout",
-      "tags": ["eight-steps"]
+      "tags": [
+        "eight-steps"
+      ]
     },
     {
       "id": "fw-sd-8",
       "kind": "framework_step",
       "topic": "system_design",
-      "title": "Step 8 — Director layer",
+      "title": "Step 8 \u2014 Director layer",
       "body": "How you would staff it, build vs buy, phasing into milestones, biggest risks. This is where you stand out from senior engineers.",
       "recallPrompt": "What is the director layer?",
       "recallAnswer": "Staffing, build/buy, phasing, risks",
-      "tags": ["eight-steps", "director"]
+      "tags": [
+        "eight-steps",
+        "director"
+      ]
     },
     {
       "id": "fw-clock",
       "kind": "framework_step",
       "topic": "system_design",
       "title": "60-minute clock",
-      "body": "0–5 frame · 5–15 requirements and scale · 15–30 HLD · 30–45 deep dive · 45–55 changed requirement · 55–60 your questions.",
-      "recallPrompt": "What happens at minutes 45–55?",
+      "body": "0\u20135 frame \u00b7 5\u201315 requirements and scale \u00b7 15\u201330 HLD \u00b7 30\u201345 deep dive \u00b7 45\u201355 changed requirement \u00b7 55\u201360 your questions.",
+      "recallPrompt": "What happens at minutes 45\u201355?",
       "recallAnswer": "Adapt calmly to a changed requirement",
-      "tags": ["clock"]
+      "tags": [
+        "clock"
+      ]
     },
     {
       "id": "fw-scenario",
       "kind": "framework_step",
       "topic": "scenarios",
       "title": "Scenario answer shape",
-      "body": "Context → Decision → Tradeoff → Action through others → Result with a number → Reflection. Keep under two minutes.",
+      "body": "Context \u2192 Decision \u2192 Tradeoff \u2192 Action through others \u2192 Result with a number \u2192 Reflection. Keep under two minutes.",
       "recallPrompt": "Six parts of a scenario answer?",
       "recallAnswer": "Context, decision, tradeoff, action, result, reflection",
-      "tags": ["framework"]
+      "tags": [
+        "framework"
+      ]
     },
     {
       "id": "ai-lens-1",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Outcome",
+      "title": "AI lens \u2014 Outcome",
       "body": "Which business metric moves: revenue, retention, cost to serve, time saved.",
       "recallPrompt": "First AI strategy lens?",
       "recallAnswer": "Which business metric moves",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-2",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Use case portfolio",
+      "title": "AI lens \u2014 Use case portfolio",
       "body": "Rank ideas by value and feasibility. Start with one wedge that ships in a quarter.",
       "recallPrompt": "How do you pick the first AI wedge?",
-      "recallAnswer": "Value × feasibility; ships in a quarter",
-      "tags": ["nine-lenses"]
+      "recallAnswer": "Value \u00d7 feasibility; ships in a quarter",
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-3",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Build, buy, or partner",
+      "title": "AI lens \u2014 Build, buy, or partner",
       "body": "Frontier API, open weights, fine-tuned small model, or vendor. Decide on cost, control, latency, privacy.",
       "recallPrompt": "Four build/buy axes?",
       "recallAnswer": "Cost, control, latency, privacy",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-4",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Platform vs product",
+      "title": "AI lens \u2014 Platform vs product",
       "body": "Shared platform (evals, guardrails, model gateway, agent identity) versus embedded teams shipping features.",
       "recallPrompt": "What belongs on a shared AI platform?",
       "recallAnswer": "Evals, guardrails, gateway, agent identity",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-5",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Quality and evaluation",
+      "title": "AI lens \u2014 Quality and evaluation",
       "body": "Offline evals, human review, online metrics, regression gates before release.",
       "recallPrompt": "Name two evaluation layers.",
       "recallAnswer": "Offline evals and online metrics",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-6",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Cost",
+      "title": "AI lens \u2014 Cost",
       "body": "Token and inference cost per task, caching, smaller models where good enough.",
       "recallPrompt": "How do you control AI cost?",
       "recallAnswer": "Cost per task, caching, smaller models",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-7",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Risk and governance",
+      "title": "AI lens \u2014 Risk and governance",
       "body": "Privacy, hallucination in high-risk flows, audit trails, human in the loop, regulation.",
       "recallPrompt": "High-risk hallucination control?",
       "recallAnswer": "Human in the loop and audit trails",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-8",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Org and talent",
+      "title": "AI lens \u2014 Org and talent",
       "body": "Who to hire first, how to upskill existing engineers, how teams are structured.",
       "recallPrompt": "Org question for AI?",
       "recallAnswer": "Hire first, upskill, team structure",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "ai-lens-9",
       "kind": "framework_step",
       "topic": "ai_strategy",
-      "title": "AI lens — Adoption",
+      "title": "AI lens \u2014 Adoption",
       "body": "Change management, trust, measuring real usage rather than demos.",
       "recallPrompt": "How do you know AI landed?",
       "recallAnswer": "Real usage, not demos",
-      "tags": ["nine-lenses"]
+      "tags": [
+        "nine-lenses"
+      ]
     },
     {
       "id": "q-url",
@@ -322,7 +387,9 @@
       "body": "Design a URL shortener on the 60-minute clock. Cover uniqueness, redirects, analytics, and abuse.",
       "recallPrompt": "Name one hard part of a URL shortener.",
       "recallAnswer": "Unique ID generation at scale / hot keys",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-notify",
@@ -332,7 +399,9 @@
       "body": "Push, email, SMS with preferences, fan-out, and delivery guarantees.",
       "recallPrompt": "Key tradeoff in notifications?",
       "recallAnswer": "Fan-out speed vs preference accuracy",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-feed",
@@ -342,7 +411,9 @@
       "body": "Push vs pull fan-out, ranking, and celebrity problem.",
       "recallPrompt": "Celebrity problem fix?",
       "recallAnswer": "Hybrid fan-out / pull for huge followings",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-chat",
@@ -352,7 +423,9 @@
       "body": "Presence, delivery receipts, ordering, offline sync, media.",
       "recallPrompt": "How do you handle offline messages?",
       "recallAnswer": "Store-and-forward with sync on reconnect",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-rate",
@@ -362,7 +435,9 @@
       "body": "Token bucket vs sliding window; distributed counters; user vs IP keys.",
       "recallPrompt": "Two rate-limit algorithms?",
       "recallAnswer": "Token bucket and sliding window",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-dropbox",
@@ -372,7 +447,9 @@
       "body": "Chunking, dedupe, sync conflict resolution, metadata vs blob store.",
       "recallPrompt": "Why chunk files?",
       "recallAnswer": "Dedupe, resume, parallel upload",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-autocomplete",
@@ -382,7 +459,9 @@
       "body": "Trie / prefix index, personalization, latency budget under 100ms.",
       "recallPrompt": "Latency target for autocomplete?",
       "recallAnswer": "Typically under ~100ms",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-ledger",
@@ -392,7 +471,9 @@
       "body": "Strong consistency, idempotency, double-entry, reconciliation.",
       "recallPrompt": "Why SQL for a ledger?",
       "recallAnswer": "Transactions and strong consistency",
-      "tags": ["practice"]
+      "tags": [
+        "practice"
+      ]
     },
     {
       "id": "q-enroll",
@@ -402,7 +483,9 @@
       "body": "Home turf: 40,000 students hit enroll at 7am. Contention, fairness, queues. Director layer: staffing and SLOs.",
       "recallPrompt": "Core hard problem?",
       "recallAnswer": "Contention and fairness under spike",
-      "tags": ["home-turf"]
+      "tags": [
+        "home-turf"
+      ]
     },
     {
       "id": "q-rag-agent",
@@ -412,7 +495,10 @@
       "body": "RAG over student records with privacy, evaluation, and cost controls.",
       "recallPrompt": "What must you protect?",
       "recallAnswer": "Student privacy and wrong advice risk",
-      "tags": ["home-turf", "ai"]
+      "tags": [
+        "home-turf",
+        "ai"
+      ]
     },
     {
       "id": "q-agent-platform",
@@ -422,7 +508,10 @@
       "body": "Many agents act on student records: permissions, audit, rollback.",
       "recallPrompt": "Three safety pillars?",
       "recallAnswer": "Permissions, audit, rollback",
-      "tags": ["home-turf", "ai"]
+      "tags": [
+        "home-turf",
+        "ai"
+      ]
     },
     {
       "id": "q-llm-batch",
@@ -432,7 +521,10 @@
       "body": "Real Anthropic-style prompt: design end-to-end batching for LLM queries.",
       "recallPrompt": "Why batch LLM queries?",
       "recallAnswer": "Throughput and cost efficiency",
-      "tags": ["ai", "practice"]
+      "tags": [
+        "ai",
+        "practice"
+      ]
     },
     {
       "id": "q-claims-rag",
@@ -442,7 +534,9 @@
       "body": "Scale AI style: claims agent using RAG while controlling token cost.",
       "recallPrompt": "How to control token cost?",
       "recallAnswer": "Retrieval limits, caching, smaller models",
-      "tags": ["ai"]
+      "tags": [
+        "ai"
+      ]
     },
     {
       "id": "q-hallucination",
@@ -452,7 +546,9 @@
       "body": "Mitigate a model giving confident but wrong answers in high-risk contexts.",
       "recallPrompt": "First mitigation?",
       "recallAnswer": "Human in the loop + abstention",
-      "tags": ["ai"]
+      "tags": [
+        "ai"
+      ]
     },
     {
       "id": "story-org",
@@ -462,7 +558,9 @@
       "body": "Your org chart is broken. How do you fix it? Name the managers you would put in place.",
       "recallPrompt": "What must a director answer name?",
       "recallAnswer": "The managers and roles to put in place",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-mm",
@@ -472,7 +570,9 @@
       "body": "Tell me about developing a manager. Action through others; result with a number.",
       "recallPrompt": "Scenario must include?",
       "recallAnswer": "A number in the result",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-under",
@@ -482,7 +582,9 @@
       "body": "A manager on your team is struggling. Decision, tradeoff, and what you did through leaders.",
       "recallPrompt": "Avoid what trap?",
       "recallAnswer": "Doing the manager's job yourself",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-conflict",
@@ -492,7 +594,9 @@
       "body": "Two teams disagree on a design. How did you turn disagreement into a decision people stand behind?",
       "recallPrompt": "Director signal?",
       "recallAnswer": "Decision people stand behind",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-prio",
@@ -502,7 +606,9 @@
       "body": "How do you say no to a senior stakeholder?",
       "recallPrompt": "What to bring?",
       "recallAnswer": "Tradeoff and a number",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-fail",
@@ -511,8 +617,10 @@
       "title": "Failure or incident",
       "body": "Your biggest miss and what changed after. Reflection is required.",
       "recallPrompt": "Last beat of the answer?",
-      "recallAnswer": "Reflection — what you'd do differently",
-      "tags": ["story-bank"]
+      "recallAnswer": "Reflection \u2014 what you'd do differently",
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-hire",
@@ -522,7 +630,9 @@
       "body": "How do you set and hold the hiring bar across managers?",
       "recallPrompt": "Director angle?",
       "recallAnswer": "Bar across managers, not one team",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-budget",
@@ -532,7 +642,10 @@
       "body": "Annualize a headcount plan; price a shared deadline.",
       "recallPrompt": "Who is often in the room?",
       "recallAnswer": "Finance",
-      "tags": ["story-bank", "business"]
+      "tags": [
+        "story-bank",
+        "business"
+      ]
     },
     {
       "id": "story-ambiguity",
@@ -542,17 +655,21 @@
       "body": "Building a team from zero (the ML mission team). Vision plus first hires.",
       "recallPrompt": "What to show?",
       "recallAnswer": "First hires and a wedge outcome",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-ai-adopt",
       "kind": "story_prompt",
       "topic": "ai_strategy",
       "title": "AI adoption",
-      "body": "Getting teams to actually use AI — usage over demos.",
+      "body": "Getting teams to actually use AI \u2014 usage over demos.",
       "recallPrompt": "Success metric?",
       "recallAnswer": "Real usage, not demos",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-influence",
@@ -562,7 +679,9 @@
       "body": "Driving change without authority.",
       "recallPrompt": "Key move?",
       "recallAnswer": "Coalition and a measurable win",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "story-vision",
@@ -572,7 +691,9 @@
       "body": "Where would you take this org in two years?",
       "recallPrompt": "Ground vision in?",
       "recallAnswer": "Outcomes, talent, and platform bets",
-      "tags": ["story-bank"]
+      "tags": [
+        "story-bank"
+      ]
     },
     {
       "id": "biz-headcount",
@@ -582,7 +703,9 @@
       "body": "Take a hiring plan by month and annualize fully loaded cost. Be ready to explain assumptions to finance.",
       "recallPrompt": "What does annualize mean here?",
       "recallAnswer": "Full-year cost of the hire plan",
-      "tags": ["business"]
+      "tags": [
+        "business"
+      ]
     },
     {
       "id": "biz-deadline",
@@ -592,7 +715,9 @@
       "body": "Given a date, price overtime, contractors, scope cuts, and risk. Speak in dollars and delivery confidence.",
       "recallPrompt": "Three levers to price?",
       "recallAnswer": "Scope, people, risk/confidence",
-      "tags": ["business"]
+      "tags": [
+        "business"
+      ]
     },
     {
       "id": "biz-orgchart",
@@ -602,17 +727,21 @@
       "body": "Name managers and spans. Separate platform vs product. Show who owns outcomes.",
       "recallPrompt": "What separates director from manager loops?",
       "recallAnswer": "Money, structure, leaders of leaders",
-      "tags": ["business"]
+      "tags": [
+        "business"
+      ]
     },
     {
       "id": "loop-shape",
       "kind": "concept",
       "topic": "director_business",
       "title": "Director loop shape",
-      "body": "Usually 4–6 stages over 2–8 weeks: recruiter → hiring manager → system design → panels/exhibit → final. Nobody asks a director to whiteboard code.",
+      "body": "Usually 4\u20136 stages over 2\u20138 weeks: recruiter \u2192 hiring manager \u2192 system design \u2192 panels/exhibit \u2192 final. Nobody asks a director to whiteboard code.",
       "recallPrompt": "What is the real test?",
       "recallAnswer": "Tech, business strategy, and people leadership meeting",
-      "tags": ["market"]
+      "tags": [
+        "market"
+      ]
     },
     {
       "id": "loop-consistency",
@@ -622,7 +751,9 @@
       "body": "Only ~20% of candidates perform consistently. Even strong candidates bomb roughly one session in five. Mock practice is required.",
       "recallPrompt": "Why mock?",
       "recallAnswer": "Loops reward repetition; variance is high",
-      "tags": ["market"]
+      "tags": [
+        "market"
+      ]
     }
   ],
   "quizzes": [
@@ -631,42 +762,68 @@
       "topic": "system_design",
       "type": "multiple_choice",
       "prompt": "What do interviewers score most in a director system design round?",
-      "choices": ["Syntax correctness", "Number of boxes drawn", "Technical judgment guiding architecture", "Whiteboard handwriting"],
+      "choices": [
+        "Syntax correctness",
+        "Number of boxes drawn",
+        "Technical judgment guiding architecture",
+        "Whiteboard handwriting"
+      ],
       "correctIndex": 2,
       "explanation": "Architecture is the medium; judgment is what gets scored."
     },
     {
       "id": "qz-2",
       "topic": "system_design",
-      "type": "tradeoff",
+      "type": "multiple_choice",
       "prompt": "Read-heavy profile with acceptable staleness. Best first building block?",
-      "choices": ["Shard immediately", "Cache", "Switch everything to NoSQL", "Add a CDN only"],
+      "choices": [
+        "Shard immediately",
+        "Cache",
+        "Switch everything to NoSQL",
+        "Add a CDN only"
+      ],
       "correctIndex": 1,
       "explanation": "Cache when reads dwarf writes and staleness is OK."
     },
     {
       "id": "qz-3",
       "topic": "system_design",
-      "type": "order_steps",
+      "type": "multiple_choice",
       "prompt": "Put the first four system design steps in order.",
-      "correctOrder": ["Clarify", "Requirements", "Estimate", "API and data"],
-      "explanation": "Clarify → Requirements → Estimate → API/data before HLD."
+      "explanation": "Clarify \u2192 Requirements \u2192 Estimate \u2192 API/data before HLD.",
+      "choices": [
+        "Clarify \u2192 Requirements \u2192 Estimate \u2192 API and data",
+        "Estimate \u2192 Clarify \u2192 High level design \u2192 Requirements",
+        "API and data \u2192 Clarify \u2192 Estimate \u2192 Requirements",
+        "Requirements \u2192 Deep dive \u2192 Clarify \u2192 Estimate"
+      ],
+      "correctIndex": 0
     },
     {
       "id": "qz-4",
       "topic": "system_design",
-      "type": "estimate_scale",
+      "type": "multiple_choice",
       "prompt": "40k students hit enroll in 10 minutes. Approx enroll attempts per second?",
-      "choices": ["~7/s", "~67/s", "~670/s", "~6,700/s"],
+      "choices": [
+        "~7/s",
+        "~67/s",
+        "~670/s",
+        "~6,700/s"
+      ],
       "correctIndex": 1,
-      "explanation": "40,000 / 600 seconds ≈ 67/s average; peaks are higher."
+      "explanation": "40,000 / 600 seconds \u2248 67/s average; peaks are higher."
     },
     {
       "id": "qz-5",
       "topic": "scenarios",
       "type": "multiple_choice",
       "prompt": "A strong director scenario answer must include:",
-      "choices": ["Code snippets", "A number in the result", "Every teammate's name", "A org chart ASCII art"],
+      "choices": [
+        "Code snippets",
+        "A number in the result",
+        "Every teammate's name",
+        "A org chart ASCII art"
+      ],
       "correctIndex": 1,
       "explanation": "Result with a number: delivery, retention, cost, quality, or adoption."
     },
@@ -675,7 +832,12 @@
       "topic": "ai_strategy",
       "type": "multiple_choice",
       "prompt": "First move on AI strategy for a product?",
-      "choices": ["Train a frontier model", "Pick the metric that should move", "Hire 20 researchers", "Buy every vendor"],
+      "choices": [
+        "Train a frontier model",
+        "Pick the metric that should move",
+        "Hire 20 researchers",
+        "Buy every vendor"
+      ],
       "correctIndex": 1,
       "explanation": "Outcome lens first: which business metric moves."
     },
@@ -684,16 +846,26 @@
       "topic": "director_business",
       "type": "multiple_choice",
       "prompt": "Which question separates director loops from manager loops?",
-      "choices": ["Write a binary search", "Annualize a headcount plan", "Name your favorite language", "Fix a CSS bug"],
+      "choices": [
+        "Write a binary search",
+        "Annualize a headcount plan",
+        "Name your favorite language",
+        "Fix a CSS bug"
+      ],
       "correctIndex": 1,
       "explanation": "Money, structure, and leaders of leaders."
     },
     {
       "id": "qz-8",
       "topic": "ai_strategy",
-      "type": "tradeoff",
+      "type": "multiple_choice",
       "prompt": "Agents acting on student records. Highest priority control?",
-      "choices": ["Faster demos", "Permissions, audit, rollback", "Bigger context windows", "More emoji in UX"],
+      "choices": [
+        "Faster demos",
+        "Permissions, audit, rollback",
+        "Bigger context windows",
+        "More emoji in UX"
+      ],
       "correctIndex": 1,
       "explanation": "Safety: permissions, audit, rollback."
     },
@@ -701,150 +873,382 @@
       "id": "qz-9",
       "topic": "system_design",
       "type": "multiple_choice",
-      "prompt": "Minutes 30–45 on the clock are for:",
-      "choices": ["Framing only", "Deep dive on bottlenecks", "Only asking questions", "Writing production code"],
+      "prompt": "Minutes 30\u201345 on the clock are for:",
+      "choices": [
+        "Framing only",
+        "Deep dive on bottlenecks",
+        "Only asking questions",
+        "Writing production code"
+      ],
       "correctIndex": 1,
       "explanation": "Deep dive with tradeoffs."
     },
     {
       "id": "qz-10",
       "topic": "scenarios",
-      "type": "order_steps",
+      "type": "multiple_choice",
       "prompt": "Order the scenario answer shape.",
-      "correctOrder": ["Context", "Decision", "Tradeoff", "Action", "Result", "Reflection"],
-      "explanation": "Context → Decision → Tradeoff → Action → Result → Reflection."
+      "explanation": "Context \u2192 Decision \u2192 Tradeoff \u2192 Action \u2192 Result \u2192 Reflection.",
+      "choices": [
+        "Context \u2192 Decision \u2192 Tradeoff \u2192 Action \u2192 Result \u2192 Reflection",
+        "Result \u2192 Context \u2192 Action \u2192 Decision \u2192 Tradeoff \u2192 Reflection",
+        "Decision \u2192 Action \u2192 Context \u2192 Result \u2192 Tradeoff \u2192 Reflection",
+        "Context \u2192 Action \u2192 Result \u2192 Decision \u2192 Tradeoff \u2192 Reflection"
+      ],
+      "correctIndex": 0
     }
   ],
   "storyThemes": [
-    { "id": "st-org", "theme": "Org design", "likelyQuestion": "Your org chart is broken. How do you fix it?" },
-    { "id": "st-mm", "theme": "Managing managers", "likelyQuestion": "Tell me about developing a manager" },
-    { "id": "st-under", "theme": "Underperformance", "likelyQuestion": "A manager on your team is struggling" },
-    { "id": "st-conflict", "theme": "Cross team conflict", "likelyQuestion": "Two teams disagree on a design" },
-    { "id": "st-prio", "theme": "Prioritization", "likelyQuestion": "How do you say no to a senior stakeholder?" },
-    { "id": "st-fail", "theme": "Failure or incident", "likelyQuestion": "Your biggest miss and what changed after" },
-    { "id": "st-hire", "theme": "Hiring", "likelyQuestion": "How do you set and hold the hiring bar?" },
-    { "id": "st-budget", "theme": "Budget and headcount", "likelyQuestion": "Annualize a headcount plan; price a deadline" },
-    { "id": "st-amb", "theme": "Ambiguity", "likelyQuestion": "Building a team from zero (the ML mission team)" },
-    { "id": "st-ai", "theme": "AI adoption", "likelyQuestion": "Getting teams to actually use AI" },
-    { "id": "st-inf", "theme": "Influence", "likelyQuestion": "Driving change without authority" },
-    { "id": "st-vis", "theme": "Vision", "likelyQuestion": "Where would you take this org in two years?" }
+    {
+      "id": "st-org",
+      "theme": "Org design",
+      "likelyQuestion": "Your org chart is broken. How do you fix it?"
+    },
+    {
+      "id": "st-mm",
+      "theme": "Managing managers",
+      "likelyQuestion": "Tell me about developing a manager"
+    },
+    {
+      "id": "st-under",
+      "theme": "Underperformance",
+      "likelyQuestion": "A manager on your team is struggling"
+    },
+    {
+      "id": "st-conflict",
+      "theme": "Cross team conflict",
+      "likelyQuestion": "Two teams disagree on a design"
+    },
+    {
+      "id": "st-prio",
+      "theme": "Prioritization",
+      "likelyQuestion": "How do you say no to a senior stakeholder?"
+    },
+    {
+      "id": "st-fail",
+      "theme": "Failure or incident",
+      "likelyQuestion": "Your biggest miss and what changed after"
+    },
+    {
+      "id": "st-hire",
+      "theme": "Hiring",
+      "likelyQuestion": "How do you set and hold the hiring bar?"
+    },
+    {
+      "id": "st-budget",
+      "theme": "Budget and headcount",
+      "likelyQuestion": "Annualize a headcount plan; price a deadline"
+    },
+    {
+      "id": "st-amb",
+      "theme": "Ambiguity",
+      "likelyQuestion": "Building a team from zero (the ML mission team)"
+    },
+    {
+      "id": "st-ai",
+      "theme": "AI adoption",
+      "likelyQuestion": "Getting teams to actually use AI"
+    },
+    {
+      "id": "st-inf",
+      "theme": "Influence",
+      "likelyQuestion": "Driving change without authority"
+    },
+    {
+      "id": "st-vis",
+      "theme": "Vision",
+      "likelyQuestion": "Where would you take this org in two years?"
+    }
   ],
   "courseWeeks": [
     {
       "id": "w1",
       "week": 1,
       "title": "Map the market",
-      "tasks": [
-        { "id": "w1-t1", "title": "Read Hello Interview Google Manager guide", "url": "https://www.hellointerview.com/learn/google-manager" },
-        { "id": "w1-t2", "title": "Read Hello Interview Meta M1 guide and Meta EM tips", "url": "https://www.hellointerview.com" },
-        { "id": "w1-t3", "title": "Read KORE1 director interview questions", "url": "https://www.kore1.com" },
-        { "id": "w1-t4", "title": "List 10 target companies with a real Director title and note each loop", "url": null }
-      ]
+      "summary": "How director loops work and what separates them from manager loops. Swipe the reel \u2014 that's the week.",
+      "reelCardIds": [
+        "loop-shape",
+        "loop-consistency",
+        "biz-orgchart",
+        "biz-headcount",
+        "biz-deadline",
+        "story-budget",
+        "story-vision"
+      ],
+      "tasks": []
     },
     {
       "id": "w2",
       "week": 2,
       "title": "System design basics",
-      "tasks": [
-        { "id": "w2-t1", "title": "Read interviewing.io senior system design guide", "url": "https://interviewing.io" },
-        { "id": "w2-t2", "title": "Read Exponent system design guide", "url": "https://www.tryexponent.com" },
-        { "id": "w2-t3", "title": "Read EM Tools system design for EMs", "url": null },
-        { "id": "w2-t4", "title": "Learn the building blocks table until you can explain each in one sentence", "url": null }
-      ]
+      "summary": "Building blocks and the eight-step director framework. Watch, recall, move on.",
+      "reelCardIds": [
+        "bb-load-balancer",
+        "bb-cache",
+        "bb-cdn",
+        "bb-sql",
+        "bb-nosql",
+        "bb-replication",
+        "bb-sharding",
+        "bb-queue",
+        "bb-search",
+        "bb-object",
+        "bb-rate-limiter",
+        "fw-sd-1",
+        "fw-sd-2",
+        "fw-sd-3",
+        "fw-sd-4",
+        "fw-clock"
+      ],
+      "tasks": []
     },
     {
       "id": "w3",
       "week": 3,
       "title": "First designs",
-      "tasks": [
-        { "id": "w3-t1", "title": "Design a URL shortener on the 60 minute clock", "url": null },
-        { "id": "w3-t2", "title": "Design a notification system", "url": null },
-        { "id": "w3-t3", "title": "Design course registration at peak (home turf)", "url": null }
-      ]
+      "summary": "Classic prompts plus your home-turf enrollment spike. Design judgment on the clock.",
+      "reelCardIds": [
+        "fw-sd-5",
+        "fw-sd-6",
+        "fw-sd-7",
+        "fw-sd-8",
+        "q-url",
+        "q-notify",
+        "q-enroll"
+      ],
+      "tasks": []
     },
     {
       "id": "w4",
       "week": 4,
       "title": "Harder designs",
-      "tasks": [
-        { "id": "w4-t1", "title": "Design a news feed", "url": null },
-        { "id": "w4-t2", "title": "Design chat and messaging", "url": null },
-        { "id": "w4-t3", "title": "Design a rate limiter", "url": null },
-        { "id": "w4-t4", "title": "One peer mock on Exponent or Hello Interview", "url": "https://www.tryexponent.com" }
-      ]
+      "summary": "Feed, chat, rate limits \u2014 deeper bottlenecks and tradeoffs.",
+      "reelCardIds": [
+        "q-feed",
+        "q-chat",
+        "q-rate",
+        "q-dropbox",
+        "q-autocomplete",
+        "q-ledger",
+        "bb-vector"
+      ],
+      "tasks": []
     },
     {
       "id": "w5",
       "week": 5,
       "title": "AI system design",
-      "tasks": [
-        { "id": "w5-t1", "title": "Design a RAG assistant with evals and cost controls", "url": null },
-        { "id": "w5-t2", "title": "Design LLM query batching", "url": null },
-        { "id": "w5-t3", "title": "Design a safe agent platform on student records", "url": null },
-        { "id": "w5-t4", "title": "Skim AI Engineering Manager Interview Insider", "url": null }
-      ]
+      "summary": "Nine lenses and real AI loop prompts. Strategy plus architecture.",
+      "reelCardIds": [
+        "ai-lens-1",
+        "ai-lens-2",
+        "ai-lens-3",
+        "ai-lens-4",
+        "ai-lens-5",
+        "ai-lens-6",
+        "ai-lens-7",
+        "ai-lens-8",
+        "ai-lens-9",
+        "q-rag-agent",
+        "q-agent-platform",
+        "q-llm-batch",
+        "q-claims-rag",
+        "q-hallucination"
+      ],
+      "tasks": []
     },
     {
       "id": "w6",
       "week": 6,
       "title": "Story bank",
+      "summary": "Scenario shape and story prompts. Fill your numbers later in Story bank.",
+      "reelCardIds": [
+        "fw-scenario",
+        "story-org",
+        "story-mm",
+        "story-under",
+        "story-conflict",
+        "story-prio",
+        "story-fail",
+        "story-hire",
+        "story-ambiguity",
+        "story-ai-adopt",
+        "story-influence"
+      ],
       "tasks": [
-        { "id": "w6-t1", "title": "Fill every row of the story bank with a story and a number", "url": null },
-        { "id": "w6-t2", "title": "Practice from Exponent EM questions", "url": "https://www.tryexponent.com" },
-        { "id": "w6-t3", "title": "Browse em-interviews on GitHub for director questions", "url": "https://github.com/kaushikb9/em-interviews" },
-        { "id": "w6-t4", "title": "Record yourself answering five stories, cut each to two minutes", "url": null }
+        {
+          "id": "w6-bank",
+          "title": "Fill story bank stories + numbers in-app",
+          "url": null
+        }
       ]
     },
     {
       "id": "w7",
       "week": 7,
       "title": "Director business round",
-      "tasks": [
-        { "id": "w7-t1", "title": "Build a sample headcount plan and annualize it", "url": null },
-        { "id": "w7-t2", "title": "Practice pricing a shared deadline and explaining it to finance", "url": null },
-        { "id": "w7-t3", "title": "Write my 90 day AI strategy pitch using the nine lenses", "url": null }
-      ]
+      "summary": "Headcount, deadlines, org design \u2014 money and structure in reel form.",
+      "reelCardIds": [
+        "biz-headcount",
+        "biz-deadline",
+        "biz-orgchart",
+        "story-budget",
+        "ai-lens-1",
+        "ai-lens-3",
+        "ai-lens-8"
+      ],
+      "tasks": []
     },
     {
       "id": "w8",
       "week": 8,
       "title": "Full loops",
-      "tasks": [
-        { "id": "w8-t1", "title": "Two full mock loops back to back (design, leadership, strategy)", "url": null },
-        { "id": "w8-t2", "title": "One paid mock with an experienced director", "url": null },
-        { "id": "w8-t3", "title": "Final review of weak spots, then start applying", "url": null }
-      ]
+      "summary": "Quick review reel of the hardest cards before you mock live.",
+      "reelCardIds": [
+        "fw-sd-8",
+        "fw-scenario",
+        "fw-clock",
+        "q-enroll",
+        "q-agent-platform",
+        "story-vision",
+        "loop-consistency"
+      ],
+      "tasks": []
     }
   ],
   "systemDesignRubric": [
-    { "id": "sd-r1", "label": "Clarified requirements", "description": "Users, scope, NFRs named" },
-    { "id": "sd-r2", "label": "Estimated scale", "description": "DAU-driven ballpark done by candidate" },
-    { "id": "sd-r3", "label": "Clear high level design", "description": "Defensible boxes and data flow" },
-    { "id": "sd-r4", "label": "Real tradeoffs", "description": "Two options and a pick" },
-    { "id": "sd-r5", "label": "Operations", "description": "Monitoring, failure, rollout" },
-    { "id": "sd-r6", "label": "Director layer", "description": "Staffing, build/buy, phasing, risks" }
+    {
+      "id": "sd-r1",
+      "label": "Clarified requirements",
+      "description": "Users, scope, NFRs named"
+    },
+    {
+      "id": "sd-r2",
+      "label": "Estimated scale",
+      "description": "DAU-driven ballpark done by candidate"
+    },
+    {
+      "id": "sd-r3",
+      "label": "Clear high level design",
+      "description": "Defensible boxes and data flow"
+    },
+    {
+      "id": "sd-r4",
+      "label": "Real tradeoffs",
+      "description": "Two options and a pick"
+    },
+    {
+      "id": "sd-r5",
+      "label": "Operations",
+      "description": "Monitoring, failure, rollout"
+    },
+    {
+      "id": "sd-r6",
+      "label": "Director layer",
+      "description": "Staffing, build/buy, phasing, risks"
+    }
   ],
   "scenarioRubric": [
-    { "id": "sc-r1", "label": "Context", "description": "Org size and stakes in 1–2 sentences" },
-    { "id": "sc-r2", "label": "Decision", "description": "What you decided and why hard" },
-    { "id": "sc-r3", "label": "Tradeoff", "description": "What you gave up; who disagreed" },
-    { "id": "sc-r4", "label": "Action through others", "description": "Led through managers, not alone" },
-    { "id": "sc-r5", "label": "Number in result", "description": "Delivery, retention, cost, quality, adoption" },
-    { "id": "sc-r6", "label": "Reflection", "description": "What you would do differently" },
-    { "id": "sc-r7", "label": "Under two minutes", "description": "Tight spoken delivery" }
+    {
+      "id": "sc-r1",
+      "label": "Context",
+      "description": "Org size and stakes in 1\u20132 sentences"
+    },
+    {
+      "id": "sc-r2",
+      "label": "Decision",
+      "description": "What you decided and why hard"
+    },
+    {
+      "id": "sc-r3",
+      "label": "Tradeoff",
+      "description": "What you gave up; who disagreed"
+    },
+    {
+      "id": "sc-r4",
+      "label": "Action through others",
+      "description": "Led through managers, not alone"
+    },
+    {
+      "id": "sc-r5",
+      "label": "Number in result",
+      "description": "Delivery, retention, cost, quality, adoption"
+    },
+    {
+      "id": "sc-r6",
+      "label": "Reflection",
+      "description": "What you would do differently"
+    },
+    {
+      "id": "sc-r7",
+      "label": "Under two minutes",
+      "description": "Tight spoken delivery"
+    }
   ],
   "sdClockPhases": [
-    { "id": "p1", "startMinute": 0, "endMinute": 5, "name": "Frame", "prompt": "Restate the problem, name users and goal." },
-    { "id": "p2", "startMinute": 5, "endMinute": 15, "name": "Requirements and scale", "prompt": "Clarify, then estimate scale yourself." },
-    { "id": "p3", "startMinute": 15, "endMinute": 30, "name": "High level design", "prompt": "Draw main components and data flow." },
-    { "id": "p4", "startMinute": 30, "endMinute": 45, "name": "Deep dive", "prompt": "Go deep on one or two bottlenecks with tradeoffs." },
-    { "id": "p5", "startMinute": 45, "endMinute": 55, "name": "Changed requirement", "prompt": "Adapt calmly when something changes." },
-    { "id": "p6", "startMinute": 55, "endMinute": 60, "name": "Your questions", "prompt": "Ask what they would push on in real life." }
+    {
+      "id": "p1",
+      "startMinute": 0,
+      "endMinute": 5,
+      "name": "Frame",
+      "prompt": "Restate the problem, name users and goal."
+    },
+    {
+      "id": "p2",
+      "startMinute": 5,
+      "endMinute": 15,
+      "name": "Requirements and scale",
+      "prompt": "Clarify, then estimate scale yourself."
+    },
+    {
+      "id": "p3",
+      "startMinute": 15,
+      "endMinute": 30,
+      "name": "High level design",
+      "prompt": "Draw main components and data flow."
+    },
+    {
+      "id": "p4",
+      "startMinute": 30,
+      "endMinute": 45,
+      "name": "Deep dive",
+      "prompt": "Go deep on one or two bottlenecks with tradeoffs."
+    },
+    {
+      "id": "p5",
+      "startMinute": 45,
+      "endMinute": 55,
+      "name": "Changed requirement",
+      "prompt": "Adapt calmly when something changes."
+    },
+    {
+      "id": "p6",
+      "startMinute": 55,
+      "endMinute": 60,
+      "name": "Your questions",
+      "prompt": "Ask what they would push on in real life."
+    }
   ],
   "mockRoundTypes": [
-    { "id": "mr-sd", "name": "System design lite", "defaultMinutes": 20 },
-    { "id": "mr-sc", "name": "Scenario round", "defaultMinutes": 15 },
-    { "id": "mr-ai", "name": "AI strategy round", "defaultMinutes": 20 },
-    { "id": "mr-biz", "name": "Director business round", "defaultMinutes": 15 }
+    {
+      "id": "mr-sd",
+      "name": "System design lite",
+      "defaultMinutes": 20
+    },
+    {
+      "id": "mr-sc",
+      "name": "Scenario round",
+      "defaultMinutes": 15
+    },
+    {
+      "id": "mr-ai",
+      "name": "AI strategy round",
+      "defaultMinutes": 20
+    },
+    {
+      "id": "mr-biz",
+      "name": "Director business round",
+      "defaultMinutes": 15
+    }
   ]
 }

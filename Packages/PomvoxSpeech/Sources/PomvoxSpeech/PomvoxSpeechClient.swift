@@ -20,7 +20,7 @@ public actor PomvoxSpeechClient {
 
     public func prepare() async throws {
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.playAndRecord, mode: .spokenAudio, options: [.defaultToSpeaker, .allowBluetooth])
+        try session.setCategory(.playAndRecord, mode: .spokenAudio, options: [.defaultToSpeaker, .allowBluetoothHFP])
         try session.setActive(true)
 
         let granted = await withCheckedContinuation { (cont: CheckedContinuation<Bool, Never>) in

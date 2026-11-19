@@ -42,7 +42,8 @@ targets:
     info:
       path: TheCut/Info.plist
       properties:
-        UILaunchScreen_Generation: true
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         NSMicrophoneUsageDescription: The Cut records your spoken interview answers on device for practice and Pomvox transcription. Audio never leaves your phone.
@@ -58,7 +59,10 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: The Cut
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIRequiresFullScreen: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
         ENABLE_PREVIEWS: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        DEAD_CODE_STRIPPING: YES

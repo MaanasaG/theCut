@@ -6,17 +6,77 @@ struct HomeView: View {
     @Query private var sessions: [PracticeSession]
     var progress: UserProgress
 
+    private var hasAPIKey: Bool {
+        !(KeychainStore.anthropicAPIKey ?? "").isEmpty
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("The Cut")
-                            .font(CutTheme.display)
-                            .foregroundStyle(CutTheme.paper)
-                        Text(appModel.selectedPack.name)
-                            .font(CutTheme.caption)
-                            .foregroundStyle(CutTheme.ember)
+                    HStack(alignment: .center, spacing: 14) {
+                        Image("BrandMark")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 56, height: 56)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .stroke(CutTheme.ember.opacity(0.35), lineWidth: 1)
+                            )
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("The Cut")
+                                .font(CutTheme.display)
+                                .foregroundStyle(CutTheme.paper)
+                            Text(appModel.selectedPack.name)
+                                .font(CutTheme.caption)
+                                .foregroundStyle(CutTheme.ember)
+                        }
+                        Spacer()
+                        NavigationLink {
+                            SettingsView(progress: progress)
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.title3)
+                                .foregroundStyle(CutTheme.paper)
+                                .padding(10)
+                                .background(CutTheme.slate)
+                                .clipShape(Circle())
+                        }
+                        .accessibilityLabel("Settings")
+                    }
+
+                    if !hasAPIKey {
+                        NavigationLink {
+                            SettingsView(progress: progress)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Add your Claude API key")
+                                    .font(.headline)
+                                    .foregroundStyle(CutTheme.paper)
+                                Text("Needed for spoken grading and live interview rounds. Tap here to paste sk-ant-…")
+                                    .font(CutTheme.caption)
+                                    .foregroundStyle(CutTheme.mist)
+                                    .multilineTextAlignment(.leading)
+                                Text("Paste key →")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(CutTheme.ink)
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 10)
+                                    .background(CutTheme.ember)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(16)
+                            .background(CutTheme.slate.opacity(0.95))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .stroke(CutTheme.ember.opacity(0.6), lineWidth: 1)
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     HStack(spacing: 12) {
