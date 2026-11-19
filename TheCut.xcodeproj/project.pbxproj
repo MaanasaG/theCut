@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01CD0ECF48135AE02A2DCFD5 /* topic-scenarios.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 920BB054CCDC7BA79701E5C1 /* topic-scenarios.mp4 */; };
 		0405CE27F0E00A9D7640DDEB /* ScenarioDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801F4D4515BB83D8991D1891 /* ScenarioDrillView.swift */; };
 		055807C751F668C898464309 /* LiveMockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EDBDCD472C5C25CC953E96 /* LiveMockView.swift */; };
 		06349AF571D00115DB39B973 /* PackSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9362F811A69C370E8A86DA /* PackSchema.swift */; };
 		0D8C6425E758DFE3806724DC /* directors_cut.json in Resources */ = {isa = PBXBuildFile; fileRef = 076F9044B6A9BCDEC7EFE3CA /* directors_cut.json */; };
 		2775E0B393ACB60E17E97DB3 /* PomvoxSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = 20A57494D967D2EFCD7DDB7B /* PomvoxSpeech */; };
 		285BFBC27BE21C37BA858B0E /* PracticeHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8661743989FEE731CA975E /* PracticeHistoryView.swift */; };
+		2DB0D1D0A231258B00609F62 /* topic-director-business.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 95D8A0834BBA7D5AA97419A9 /* topic-director-business.mp4 */; };
+		45A9D10F2AC27FD693868557 /* topic-ai-strategy.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0496FFF4C71198260C3AB1EB /* topic-ai-strategy.mp4 */; };
 		4BE1883AF8A5527EF9049A02 /* TheCutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2D45112190D1B44E7021BD /* TheCutApp.swift */; };
+		4C1E5F6CC1A7042CC9C05124 /* topic-system-design.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D6597A51207E67F940736A46 /* topic-system-design.mp4 */; };
 		5B366907666B2493A39AEE85 /* managers_cut.json in Resources */ = {isa = PBXBuildFile; fileRef = 901DDDD29EE627C44A5BD5D5 /* managers_cut.json */; };
 		6E76C7AF69C3B660F040A35E /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F3417160F781ECA6EA734 /* FeedView.swift */; };
 		6EDE6AD07113E721E60C59E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBDA8EE2B117A612DB89C6F /* HomeView.swift */; };
@@ -35,11 +39,14 @@
 		DA8EF03C92F24660B2C8D75E /* ClaudeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA2134CD6CD8431693230E5 /* ClaudeClient.swift */; };
 		DA9A6521440F61B25135EEFE /* SystemDesignMockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B92D350622EF4919C999E9 /* SystemDesignMockView.swift */; };
 		E778B8AA7894D0E9DDAEFFFE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262718B09F661B25E1E505EA /* OnboardingView.swift */; };
+		EE421116E6E4C8DDFDE243AD /* LoopingVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C7B09F61924B635AB7A9E3 /* LoopingVideoPlayer.swift */; };
 		F9279612F801D4ECEC432782 /* CourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8437E420134DF9FE6FE6239 /* CourseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0214A4F7461D72CACEE88244 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		0496FFF4C71198260C3AB1EB /* topic-ai-strategy.mp4 */ = {isa = PBXFileReference; path = "topic-ai-strategy.mp4"; sourceTree = "<group>"; };
+		06C7B09F61924B635AB7A9E3 /* LoopingVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopingVideoPlayer.swift; sourceTree = "<group>"; };
 		076F9044B6A9BCDEC7EFE3CA /* directors_cut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = directors_cut.json; sourceTree = "<group>"; };
 		106E209B6E9CD09A6EE52DAD /* PracticeHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeHubView.swift; sourceTree = "<group>"; };
 		241A8F866EF39093769ED1ED /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
@@ -59,12 +66,15 @@
 		8A9362F811A69C370E8A86DA /* PackSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackSchema.swift; sourceTree = "<group>"; };
 		8C424B62610130157172F760 /* VerticalReelPager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalReelPager.swift; sourceTree = "<group>"; };
 		901DDDD29EE627C44A5BD5D5 /* managers_cut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = managers_cut.json; sourceTree = "<group>"; };
+		920BB054CCDC7BA79701E5C1 /* topic-scenarios.mp4 */ = {isa = PBXFileReference; path = "topic-scenarios.mp4"; sourceTree = "<group>"; };
+		95D8A0834BBA7D5AA97419A9 /* topic-director-business.mp4 */ = {isa = PBXFileReference; path = "topic-director-business.mp4"; sourceTree = "<group>"; };
 		9B06A6EF235BC1A1B7AC74AA /* senior_managers_cut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = senior_managers_cut.json; sourceTree = "<group>"; };
 		9E2256FE24EDFB8E097E1D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACB34784116EDA4F5AC72D83 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
 		B1EDBDCD472C5C25CC953E96 /* LiveMockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMockView.swift; sourceTree = "<group>"; };
 		B8A8861839BCCA891761167B /* TopicVideoBackdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicVideoBackdrop.swift; sourceTree = "<group>"; };
 		BBBDA8EE2B117A612DB89C6F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D6597A51207E67F940736A46 /* topic-system-design.mp4 */ = {isa = PBXFileReference; path = "topic-system-design.mp4"; sourceTree = "<group>"; };
 		D8437E420134DF9FE6FE6239 /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
 		F2655CD0DB45DAF20EE7D3D3 /* TheCut.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TheCut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3B92D350622EF4919C999E9 /* SystemDesignMockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDesignMockView.swift; sourceTree = "<group>"; };
@@ -88,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				F43F3417160F781ECA6EA734 /* FeedView.swift */,
+				06C7B09F61924B635AB7A9E3 /* LoopingVideoPlayer.swift */,
 				B8A8861839BCCA891761167B /* TopicVideoBackdrop.swift */,
 				8C424B62610130157172F760 /* VerticalReelPager.swift */,
 			);
@@ -233,6 +244,7 @@
 		9E552C9E154953DBC5DAA3C9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D8C624FBA9EC0117BF63EE1A /* Videos */,
 				9E2256FE24EDFB8E097E1D7E /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -278,6 +290,17 @@
 				B1EDBDCD472C5C25CC953E96 /* LiveMockView.swift */,
 			);
 			path = Live;
+			sourceTree = "<group>";
+		};
+		D8C624FBA9EC0117BF63EE1A /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				0496FFF4C71198260C3AB1EB /* topic-ai-strategy.mp4 */,
+				95D8A0834BBA7D5AA97419A9 /* topic-director-business.mp4 */,
+				920BB054CCDC7BA79701E5C1 /* topic-scenarios.mp4 */,
+				D6597A51207E67F940736A46 /* topic-system-design.mp4 */,
+			);
+			path = Videos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,6 +375,10 @@
 				5B366907666B2493A39AEE85 /* managers_cut.json in Resources */,
 				9E44CE9F3B947D8B42A887F8 /* principals_cut.json in Resources */,
 				8857442E5265DE36ACD6E23A /* senior_managers_cut.json in Resources */,
+				45A9D10F2AC27FD693868557 /* topic-ai-strategy.mp4 in Resources */,
+				2DB0D1D0A231258B00609F62 /* topic-director-business.mp4 in Resources */,
+				01CD0ECF48135AE02A2DCFD5 /* topic-scenarios.mp4 in Resources */,
+				4C1E5F6CC1A7042CC9C05124 /* topic-system-design.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +397,7 @@
 				6EDE6AD07113E721E60C59E3 /* HomeView.swift in Sources */,
 				7EFCA27F2EC2EDC332892C13 /* KeychainStore.swift in Sources */,
 				055807C751F668C898464309 /* LiveMockView.swift in Sources */,
+				EE421116E6E4C8DDFDE243AD /* LoopingVideoPlayer.swift in Sources */,
 				E778B8AA7894D0E9DDAEFFFE /* OnboardingView.swift in Sources */,
 				06349AF571D00115DB39B973 /* PackSchema.swift in Sources */,
 				285BFBC27BE21C37BA858B0E /* PracticeHistoryView.swift in Sources */,

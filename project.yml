@@ -35,6 +35,8 @@ targets:
       - path: TheCut/Content/Packs
         type: folder
       - path: TheCut/Resources/Assets.xcassets
+      - path: TheCut/Resources/Videos
+        type: folder
     dependencies:
       - package: PomvoxSpeech
       - package: FluidAudio

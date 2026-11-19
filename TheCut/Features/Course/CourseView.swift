@@ -102,7 +102,7 @@ struct WeekRing: View {
 /// Full-screen vertical reel for one course week — watching marks progress.
 struct WeekReelView: View {
     @Environment(AppModel.self) private var appModel
-    @StateObject private var narrator = LessonNarrator.shared
+    @StateObject private var narrator = ReelNarrator.shared
     var week: CourseWeek
     var progress: UserProgress
 
@@ -116,6 +116,7 @@ struct WeekReelView: View {
 
     var body: some View {
         ZStack {
+            Color.black.ignoresSafeArea()
             if cards.isEmpty {
                 ContentUnavailableView("No reels yet", systemImage: "film", description: Text("This week has no cards bundled."))
             } else {
@@ -126,16 +127,12 @@ struct WeekReelView: View {
                         phase: index == i ? recallPhase : .hidden,
                         badge: "Week \(week.week) · \(i + 1)/\(cards.count)",
                         isActive: index == i,
-                        isPlayingVideo: index == i && narrator.isSpeaking,
                         onToggleFavorite: {
                             if let j = progress.favoriteCardIDs.firstIndex(of: card.id) {
                                 progress.favoriteCardIDs.remove(at: j)
                             } else {
                                 progress.favoriteCardIDs.append(card.id)
                             }
-                        },
-                        onPlayVideo: {
-                            narrator.play(title: card.title, body: card.body)
                         },
                         onStartRecall: { recallPhase = .prompt },
                         onShowAnswer: { recallPhase = .revealed },
@@ -158,12 +155,16 @@ struct WeekReelView: View {
                     recallPhase = .hidden
                     narrator.stop()
                     if newValue < cards.count {
-                        markWatched(cards[newValue])
+                        let card = cards[newValue]
+                        markWatched(card)
+                        narrator.resetCardTracking()
+                        narrator.speakIfNeeded(cardID: card.id, title: card.title, body: card.body)
                     }
                 }
                 .onAppear {
                     if let first = cards.first {
                         markWatched(first)
+                        narrator.speakIfNeeded(cardID: first.id, title: first.title, body: first.body)
                     }
                 }
             }

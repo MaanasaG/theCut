@@ -5,7 +5,7 @@ struct FeedView: View {
     @Environment(AppModel.self) private var appModel
     @Environment(\.modelContext) private var modelContext
     @Query private var spaced: [SpacedCardState]
-    @StateObject private var narrator = LessonNarrator.shared
+    @StateObject private var narrator = ReelNarrator.shared
     var progress: UserProgress
 
     @State private var topicFilter: CardTopic? = nil
@@ -34,6 +34,8 @@ struct FeedView: View {
 
     var body: some View {
         ZStack {
+            Color.black.ignoresSafeArea()
+
             if cards.isEmpty {
                 ContentUnavailableView(
                     "No cards",
@@ -48,11 +50,7 @@ struct FeedView: View {
                         isFavorite: progress.favoriteCardIDs.contains(card.id),
                         phase: index == i ? recallPhase : .hidden,
                         isActive: index == i,
-                        isPlayingVideo: index == i && narrator.isSpeaking,
                         onToggleFavorite: { toggleFavorite(card) },
-                        onPlayVideo: {
-                            narrator.play(title: card.title, body: card.body)
-                        },
                         onStartRecall: { recallPhase = .prompt },
                         onShowAnswer: { recallPhase = .revealed },
                         onTeachMe: { recallPhase = .teaching },
@@ -66,22 +64,31 @@ struct FeedView: View {
                         }
                     )
                 }
-                .onChange(of: index) { _, _ in
+                .onChange(of: index) { _, newValue in
                     recallPhase = .hidden
                     narrator.stop()
+                    guard cards.indices.contains(newValue) else { return }
+                    let card = cards[newValue]
+                    narrator.resetCardTracking()
+                    narrator.speakIfNeeded(cardID: card.id, title: card.title, body: card.body)
+                }
+                .onAppear {
+                    if let card = cards.first {
+                        narrator.speakIfNeeded(cardID: card.id, title: card.title, body: card.body)
+                    }
                 }
             }
 
-            VStack {
+            VStack(spacing: 0) {
                 filterBar
+                    .padding(.top, 8)
                 Spacer()
                 Text("Swipe up")
                     .font(CutTheme.caption)
-                    .foregroundStyle(CutTheme.paper.opacity(0.7))
-                    .padding(.bottom, 28)
+                    .foregroundStyle(CutTheme.paper.opacity(0.75))
+                    .padding(.bottom, 12)
+                    .allowsHitTesting(false)
             }
-            .padding(.top, 8)
-            .allowsHitTesting(true)
         }
     }
 
@@ -166,9 +173,7 @@ struct FeedCardView: View {
     var phase: RecallPhase
     var badge: String? = nil
     var isActive: Bool = true
-    var isPlayingVideo: Bool = false
     var onToggleFavorite: () -> Void
-    var onPlayVideo: () -> Void = {}
     var onStartRecall: () -> Void
     var onShowAnswer: () -> Void
     var onTeachMe: () -> Void = {}
@@ -178,116 +183,71 @@ struct FeedCardView: View {
     @State private var appeared = false
 
     var body: some View {
-        ZStack {
-            TopicVideoBackdrop(topic: card.topic, isActive: isActive, playing: isPlayingVideo)
+        GeometryReader { geo in
+            ZStack {
+                TopicVideoBackdrop(topic: card.topic, isActive: isActive)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .clipped()
 
-            VStack(alignment: .leading, spacing: 18) {
-                HStack {
-                    Text(card.topic.title.uppercased())
-                        .font(.caption2.weight(.bold))
-                        .foregroundStyle(CutTheme.gold)
-                    if let badge {
-                        Text(badge)
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(CutTheme.ember)
-                    }
-                    Spacer()
-                    Button(action: onToggleFavorite) {
-                        Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
-                            .foregroundStyle(CutTheme.ember)
-                    }
-                }
-
-                Spacer()
-
-                Text(card.title)
-                    .font(CutTheme.title)
-                    .foregroundStyle(CutTheme.paper)
-                    .shadow(color: .black.opacity(0.45), radius: 8, y: 2)
-                    .opacity(appeared ? 1 : 0)
-                    .offset(y: appeared ? 0 : 12)
-
-                if phase != .teaching {
-                    Text(card.body)
-                        .font(CutTheme.body)
-                        .foregroundStyle(CutTheme.mist)
-                        .shadow(color: .black.opacity(0.35), radius: 6, y: 1)
-                        .opacity(appeared ? 1 : 0)
-                }
-
-                Button {
-                    onPlayVideo()
-                } label: {
-                    Label(isPlayingVideo ? "Playing lesson…" : "Play AI lesson", systemImage: isPlayingVideo ? "waveform" : "play.circle.fill")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(CutTheme.paper)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .background(CutTheme.ink.opacity(0.55))
-                        .clipShape(Capsule())
-                        .overlay(Capsule().stroke(CutTheme.ember.opacity(0.5), lineWidth: 1))
-                }
-
-                switch phase {
-                case .hidden:
-                    Button("One-tap recall", action: onStartRecall)
-                        .buttonStyle(CutPrimaryButtonStyle())
-                case .prompt:
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(card.recallPrompt)
-                            .font(.headline)
-                            .foregroundStyle(CutTheme.paper)
-                        Button("Show answer", action: onShowAnswer)
-                            .buttonStyle(CutPrimaryButtonStyle())
-                        Button("I don't know — teach me", action: onTeachMe)
-                            .buttonStyle(CutSecondaryButtonStyle())
-                    }
-                    .padding(16)
-                    .background(CutTheme.ink.opacity(0.7))
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                case .revealed:
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(card.recallPrompt)
-                            .font(.headline)
-                            .foregroundStyle(CutTheme.paper)
-                        Text(card.recallAnswer)
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack {
+                        Text(card.topic.title.uppercased())
+                            .font(.caption2.weight(.bold))
                             .foregroundStyle(CutTheme.gold)
-                        HStack {
-                            Button("Knew it") { onScore(true) }
-                                .buttonStyle(CutPrimaryButtonStyle())
-                            Button("Missed") { onScore(false) }
-                                .buttonStyle(CutSecondaryButtonStyle())
+                        if let badge {
+                            Text(badge)
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(CutTheme.ember)
                         }
-                        Button("Teach me more", action: onTeachMe)
-                            .buttonStyle(CutSecondaryButtonStyle())
+                        Spacer(minLength: 8)
+                        Button(action: onToggleFavorite) {
+                            Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
+                                .foregroundStyle(CutTheme.ember)
+                        }
                     }
-                    .padding(16)
-                    .background(CutTheme.ink.opacity(0.7))
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                case .teaching:
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Teach me")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(CutTheme.ember)
+
+                    Spacer(minLength: 12)
+
+                    Text(card.title)
+                        .font(CutTheme.title)
+                        .foregroundStyle(CutTheme.paper)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .shadow(color: .black.opacity(0.5), radius: 8, y: 2)
+                        .opacity(appeared ? 1 : 0)
+
+                    if phase != .teaching {
                         Text(card.body)
+                            .font(CutTheme.body)
                             .foregroundStyle(CutTheme.mist)
-                        Text("Remember this")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(CutTheme.gold)
-                        Text(card.recallAnswer)
-                            .font(.title3.weight(.semibold))
-                            .foregroundStyle(CutTheme.paper)
-                        Button("Got it — next") { onTaught() }
-                            .buttonStyle(CutPrimaryButtonStyle())
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(8)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .shadow(color: .black.opacity(0.4), radius: 6, y: 1)
+                            .opacity(appeared ? 1 : 0)
                     }
-                    .padding(16)
-                    .background(CutTheme.ink.opacity(0.75))
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+
+                    Group {
+                        switch phase {
+                        case .hidden:
+                            Button("One-tap recall", action: onStartRecall)
+                                .buttonStyle(CutPrimaryButtonStyle())
+                        case .prompt:
+                            teachPrompt
+                        case .revealed:
+                            teachRevealed
+                        case .teaching:
+                            teachPanel
+                        }
+                    }
                 }
+                .padding(.horizontal, 24)
+                .padding(.top, 56)
+                .padding(.bottom, 44)
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
             }
-            .padding(28)
-            .padding(.top, 56)
-            .padding(.bottom, 36)
+            .frame(width: geo.size.width, height: geo.size.height)
+            .clipped()
         }
         .onAppear {
             withAnimation(.easeOut(duration: 0.45)) { appeared = true }
@@ -296,5 +256,70 @@ struct FeedCardView: View {
             appeared = false
             withAnimation(.easeOut(duration: 0.45)) { appeared = true }
         }
+    }
+
+    private var teachPrompt: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(card.recallPrompt)
+                .font(.headline)
+                .foregroundStyle(CutTheme.paper)
+                .fixedSize(horizontal: false, vertical: true)
+            Button("Show answer", action: onShowAnswer)
+                .buttonStyle(CutPrimaryButtonStyle())
+            Button("I don't know — teach me", action: onTeachMe)
+                .buttonStyle(CutSecondaryButtonStyle())
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(CutTheme.ink.opacity(0.78))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private var teachRevealed: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(card.recallPrompt)
+                .font(.headline)
+                .foregroundStyle(CutTheme.paper)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(card.recallAnswer)
+                .foregroundStyle(CutTheme.gold)
+                .fixedSize(horizontal: false, vertical: true)
+            HStack {
+                Button("Knew it") { onScore(true) }
+                    .buttonStyle(CutPrimaryButtonStyle())
+                Button("Missed") { onScore(false) }
+                    .buttonStyle(CutSecondaryButtonStyle())
+            }
+            Button("Teach me more", action: onTeachMe)
+                .buttonStyle(CutSecondaryButtonStyle())
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(CutTheme.ink.opacity(0.78))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private var teachPanel: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Teach me")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(CutTheme.ember)
+            Text(card.body)
+                .foregroundStyle(CutTheme.mist)
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Remember this")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(CutTheme.gold)
+            Text(card.recallAnswer)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(CutTheme.paper)
+                .fixedSize(horizontal: false, vertical: true)
+            Button("Got it — next") { onTaught() }
+                .buttonStyle(CutPrimaryButtonStyle())
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(CutTheme.ink.opacity(0.82))
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }
