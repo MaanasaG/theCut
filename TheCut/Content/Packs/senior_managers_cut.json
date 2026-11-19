@@ -1,0 +1,14 @@
+{
+  "id": "senior_managers_cut",
+  "name": "Senior Manager's Cut",
+  "focus": "Leading multiple teams, cross team delivery, growing managers.",
+  "active": false,
+  "cards": [],
+  "quizzes": [],
+  "storyThemes": [],
+  "courseWeeks": [],
+  "systemDesignRubric": [],
+  "scenarioRubric": [],
+  "sdClockPhases": [],
+  "mockRoundTypes": []
+}

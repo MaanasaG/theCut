@@ -1,0 +1,14 @@
+{
+  "id": "managers_cut",
+  "name": "Manager's Cut",
+  "focus": "People management, hiring, execution, team level system design.",
+  "active": false,
+  "cards": [],
+  "quizzes": [],
+  "storyThemes": [],
+  "courseWeeks": [],
+  "systemDesignRubric": [],
+  "scenarioRubric": [],
+  "sdClockPhases": [],
+  "mockRoundTypes": []
+}
